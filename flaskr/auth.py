@@ -26,7 +26,7 @@ def register():
     if error is None:
       try:
         db.execute(
-          "INSERT INTO user (username, password) VALUES (?, ?)"
+          "INSERT INTO user (username, password) VALUES (?, ?)",
           (username, generate_password_hash(password)),
         )
         db.commit()
@@ -46,7 +46,8 @@ def login():
     username = request.form['username']
     password = request.form['password']
     db = get_db()
-    error = db.execute(
+    error = None
+    user = db.execute(
       'SELECT * FROM user WHERE username =?', (username,)
     ).fetchone()
 
